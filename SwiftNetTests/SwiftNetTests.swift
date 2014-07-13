@@ -7,28 +7,50 @@
 //
 
 import XCTest
+import SwiftNet
 
 class SwiftNetTests: XCTestCase {
-    
+    var graph = Graph<String>()
+
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+    func testAddNodes() {
+        graph.addNode("a")
+        graph.addNode("b")
+        graph.addNode("c")
+        graph["d"] = NodeData()
+        
+        XCTAssert(self.graph["d"], "Subcripting error when adding node.")
+        XCTAssert(self.graph.nodes["a"], "Node \"a\" was not found in the graph.")
+        XCTAssert(!self.graph.nodes["b"]?["a"], "Edge was found were no edge should be.")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
+    func testUndirectedEdges() {
+        graph.addUndirectedEdge(u: "a", v: "b")
+        var edge = graph.nodes["b"] --> ["a"]
+
+        XCTAssert(edge, "Edge was not found.")
+        XCTAssert(self.graph.nodes["b"]?["a"], "Edge was not found.")
+        XCTAssert(graph.hasEdgeFromNode("b", toNode: "a"), "Graph has no such edge!")
+    }
+    
+    func testRemoveNodes() {
+        graph.removeNode("a")
+        graph["b"] = nil
+        
+        XCTAssert(!graph["b"], "Problem removing node with subscript.")
+        XCTAssert(!graph.nodes["a"], "Problem removing node with remove method.")
+    }
+    
+    func testAddNodesPerformance() {
         self.measureBlock() {
-            // Put the code you want to measure the time of here.
+            
         }
     }
     

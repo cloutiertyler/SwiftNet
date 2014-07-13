@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC6E2A221971020A0054BDF8 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6E2A211971020A0054BDF8 /* Graph.swift */; };
 		DC7485521970F85100B12D42 /* SwiftNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC7485511970F85100B12D42 /* SwiftNet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC7485581970F85100B12D42 /* SwiftNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC74854C1970F85100B12D42 /* SwiftNet.framework */; };
 		DC74855F1970F85100B12D42 /* SwiftNetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC74855E1970F85100B12D42 /* SwiftNetTests.swift */; };
@@ -23,6 +24,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DC6E2A211971020A0054BDF8 /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
+		DC6E2A23197108070054BDF8 /* SwiftNet.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftNet.playground; sourceTree = "<group>"; };
 		DC74854C1970F85100B12D42 /* SwiftNet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftNet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC7485501970F85100B12D42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC7485511970F85100B12D42 /* SwiftNet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftNet.h; sourceTree = "<group>"; };
@@ -72,6 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				DC7485511970F85100B12D42 /* SwiftNet.h */,
+				DC6E2A211971020A0054BDF8 /* Graph.swift */,
+				DC6E2A23197108070054BDF8 /* SwiftNet.playground */,
 				DC74854F1970F85100B12D42 /* Supporting Files */,
 			);
 			path = SwiftNet;
@@ -210,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC6E2A221971020A0054BDF8 /* Graph.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +326,7 @@
 		DC7485631970F85100B12D42 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -329,12 +336,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		DC7485641970F85100B12D42 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -398,6 +407,7 @@
 				DC7485641970F85100B12D42 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DC7485651970F85100B12D42 /* Build configuration list for PBXNativeTarget "SwiftNetTests" */ = {
 			isa = XCConfigurationList;
@@ -406,6 +416,7 @@
 				DC7485671970F85100B12D42 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
