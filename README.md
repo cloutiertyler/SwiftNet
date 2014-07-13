@@ -26,5 +26,6 @@ var edge = graph["a", "b"]
 var neighbors = graph["a"].neighbors
 println(neighbors["b"])
 
+//Or alternatively...
 println(graph["a"]?["b"])
 ```
