@@ -11,6 +11,7 @@
 		DC7485521970F85100B12D42 /* SwiftNet.h in Headers */ = {isa = PBXBuildFile; fileRef = DC7485511970F85100B12D42 /* SwiftNet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC7485581970F85100B12D42 /* SwiftNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC74854C1970F85100B12D42 /* SwiftNet.framework */; };
 		DC74855F1970F85100B12D42 /* SwiftNetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC74855E1970F85100B12D42 /* SwiftNetTests.swift */; };
+		DCDB4E57197255CA00EB1084 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = DCDB4E56197255CA00EB1084 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +33,7 @@
 		DC7485571970F85100B12D42 /* SwiftNetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftNetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC74855D1970F85100B12D42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC74855E1970F85100B12D42 /* SwiftNetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftNetTests.swift; sourceTree = "<group>"; };
+		DCDB4E56197255CA00EB1084 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 		DC74854F1970F85100B12D42 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DCDB4E56197255CA00EB1084 /* README.md */,
 				DC7485501970F85100B12D42 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -215,6 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCDB4E57197255CA00EB1084 /* README.md in Sources */,
 				DC6E2A221971020A0054BDF8 /* Graph.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
