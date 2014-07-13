@@ -8,71 +8,67 @@
 
 import Foundation
 
-//var __g: Generator = mySequence.generate()
-//while let x = __g.next() {
-//    // iterations here
-//}
+extension String: NodeKey{}
+extension Int: NodeKey{}
+extension Double: NodeKey{}
+extension Float: NodeKey{}
 
-extension String: Node{}
-extension Int: Node{}
-extension Double: Node{}
-extension Float: Node{}
+protocol NodeKey:Hashable {}
 
-protocol Node:Hashable {
-    
-}
-
-//Operators to be considered in the future.
-operator infix-->{}
-
-@infix func --><T:Node>(var fromNodeData:NodeData<T>?, dummy: [T]) -> Edge<T>? {
-    return fromNodeData?.outgoingEdges[dummy[0]]
-}
-
-operator infix<--{}
-
-@infix func <--<T:Node>(var fromNodeData:NodeData<T>?, dummy: [T]) -> Edge<T>? {
-    return fromNodeData?.incomingEdges[dummy[0]]
-}
-
-operator infix<->{}
-
-@infix func <-><T:Node>(var fromNodeData:NodeData<T>?, dummy: [T]) -> Edge<T>? {
-    return fromNodeData?.undirectedEdges[dummy[0]]
-}
-
-class NodeData<T:Node> {
-    var neighbors = [T:NodeData<T>]()
-    var incomingEdges = [T:Edge<T>]()
-    var outgoingEdges = [T:Edge<T>]()
-    var undirectedEdges:[T:Edge<T>] {
-    return outgoingEdges;
-    }
-    var props = [:]
-    subscript(n: T) -> NodeData<T>? {
+class Edge<T:NodeKey> {
+    //Public
+    var weight = 0
+    var properties = [String:Any]()
+    //Private
+    var toNode: T! = nil
+    var fromNode: T! = nil
+    subscript(name: String) -> Any? {
         get {
-            return neighbors[n]
+            return properties[name]
         }
         set {
-            neighbors[n] = newValue
+            properties[name] = newValue
+        }
+    }
+    
+    init(){}
+    init(weight: Int) {
+        self.weight = weight
+    }
+    
+}
+
+class Node<T:NodeKey> {
+    //Public
+    var properties = [String:Any]()
+    //Private
+    var edges = [T:Edge<T>]()
+    var incomingEdges = [T:Edge<T>]()
+    var neighbors = [T:Node<T>]()
+    subscript(name: String) -> Any? {
+        get {
+            return properties[name]
+        }
+        set {
+            properties[name] = newValue
         }
     }
 }
 
-struct Edge<T:Node> {
-    unowned let toNode, fromNode: NodeData<T>
-    var weight = 0
-    var props = [:]
-    
-    init(fromNode: NodeData<T>, toNode: NodeData<T>) {
-        self.toNode = toNode
-        self.fromNode = fromNode
+extension Node: Sequence {
+    func generate() -> DictionaryGenerator<T, Node<T>> {
+        return self.neighbors.generate()
     }
 }
 
-class Graph<T:Node> {
-    var nodes = [T:NodeData<T>]()
-    subscript(n: T) -> NodeData<T>? {
+class Graph<T:NodeKey> {
+    //Private
+    var nodes = [T:Node<T>]()
+    var edges = [T:[T:Edge<T>]]()
+    var count: Int {
+    return self.nodes.count
+    }
+    subscript(n: T) -> Node<T>? {
         get {
             return nodes[n]
         }
@@ -80,54 +76,73 @@ class Graph<T:Node> {
             nodes[n] = newValue
         }
     }
-    
-    func count() -> Int {
-        return self.nodes.count
-    }
-    
-    func order() -> Int {
-        return self.count()
+    subscript(u: T, v: T) -> Edge<T>? {
+        get {
+            return self[u]?.edges[v]
+        }
+        set {
+            if (!newValue) {
+                if self[u] {
+                    self[u]!.edges[v] = nil
+                    self[u]!.neighbors[v] = nil
+                    self[v]!.incomingEdges[u] = nil
+                }
+            } else {
+                if !self[u] {
+                    self[u] = Node()
+                }
+                if !self[v]{
+                    self[v] = Node()
+                }
+                newValue!.fromNode = u
+                newValue!.toNode = v
+                self[u]!.neighbors[v] = self[v]
+                self[u]!.edges[v] = newValue
+                self[v]!.incomingEdges[u] = newValue
+            }
+        }
     }
     
     func addNode(n: T) {
-        self.nodes[n] = NodeData()
+        self[n] = Node()
     }
     
     func removeNode(n: T) {
-        self.nodes[n] = nil
+        self[n] = nil
     }
     
-    func addNodeIfDoesNotExist(n: T) {
-        if !self.nodes[n] {
-            self.nodes[n] = NodeData()
-        }
+    func addEdgeFromNode(u: T, toNode v: T) {
+        self[u, v] = Edge()
     }
     
-    func addDirectedEdgeFromNode(u: T, toNode v: T) {
-        self.addNodeIfDoesNotExist(u)
-        self.addNodeIfDoesNotExist(v)
-        
-        self.nodes[u]![v] = self.nodes[u]
+    func removeEdgeFromNode(u: T, toNode v: T) {
+        self[u, v] = nil
     }
     
-    func addUndirectedEdge(#u: T, v: T) {
-        self.addNodeIfDoesNotExist(u)
-        self.addNodeIfDoesNotExist(v)
-        
-        self.nodes[u]![v] = self.nodes[v]
-        self.nodes[v]![u] = self.nodes[u]
-        let u_to_v = Edge(fromNode:self.nodes[u]!, toNode: self.nodes[v]!)
-        let v_to_u = Edge(fromNode:self.nodes[v]!, toNode: self.nodes[v]!)
-        self.nodes[u]!.incomingEdges[v] = u_to_v;
-        self.nodes[u]!.outgoingEdges[v] = v_to_u;
-        self.nodes[v]!.incomingEdges[u] = u_to_v;
-        self.nodes[v]!.outgoingEdges[u] = v_to_u;
+    func addEdgeUndirected(#u: T, toNode v: T) {
+        self[u, v] = Edge()
+        self[v, u] = Edge()
+    }
+    
+    func removeEdgeUndirected(#u: T, toNode v: T) {
+        self[u, v] = nil
+        self[v, u] = nil
+    }
+    
+    func getEdgeFromNode(u: T, toNode v: T) -> Edge<T>? {
+        return self[u, v]
     }
     
     func hasEdgeFromNode(u: T, toNode v: T) -> Bool {
-        if self.nodes[u]?[v]? {
+        if self[u, v] {
             return true
         }
         return false
+    }
+}
+
+extension Graph: Sequence {
+    func generate() -> DictionaryGenerator<T, Node<T>> {
+        return self.nodes.generate()
     }
 }
